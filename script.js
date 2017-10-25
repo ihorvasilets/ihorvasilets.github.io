@@ -187,19 +187,19 @@ function dragDrop(event, container, taskList){
 //        var movingItem = event.target.parentElement.parentElement.parentElement.parentElement;
 //        var target = event.target.parentElement;
 //    }
-    var ggg = document.getElementById('newTaskText');
+
     movingItem.style.position = 'absolute';
     movingItem.style.zIndex = '1000';
     moveAt(event);
 
-    
+
 
     function moveAt(event){
         movingItem.style.left = event.pageX - target.offsetWidth / 2 + 'px';                    
         movingItem.style.top = event.pageY - target.offsetHeight / 2 + 'px';
         // console.log(movingItem.getBoundingClientRect().top);
-        ggg.innerHTML += ' ';
-        // ggg.innerHTML += movingItem.getBoundingClientRect().top;
+        document.getElementById('newTaskText').innerHTML += ' ';
+        document.getElementById('newTaskText').innerHTML += movingItem.getBoundingClientRect().top;
     }
 
     document.onmousemove = document.ontouchmove = function(event){
