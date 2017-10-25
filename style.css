@@ -16,3 +16,17 @@
     margin: auto;
     margin-bottom: 20px;
 }
+div#taskContainer > div > div span.input-group-addon{
+    background-image: url(bootstrap/move.png);
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center center;
+}
+
+div#taskContainer > div > div button{
+    background-image: url(bootstrap/del.png);
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center center;
+    float: right;
+}

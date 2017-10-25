@@ -2,79 +2,68 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Collaboration List</title>
+    <title>Collaborative List</title>
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
-    
+
      <!-- Load the Realtime JavaScript library -->
     <script src="https://apis.google.com/js/api.js"></script>
 
     <!-- Load the utility library -->
     <script src="https://www.gstatic.com/realtime/realtime-client-utils.js"></script>
-    
+
     <script src="script.js"></script>
 
 </head>
 <body>
 
 <div class="container">
-
-<div class="jumbotron text-center">
-  <h1>My Collaborative List</h1>
-  <p>Responsive Collaborative List</p> 
-</div>
-
-
-<div class="panel panel-info">
-  <div class="panel-body">
-  <div class="alert alert-info">
-      <strong>Info!</strong> You have to authorize first. Please press the button <i>'Authorize'</i>.
-  
-   <button id="auth_button" class='btn btn-info'>Authorize</button>
-</div>
- 
- <div id='taskContainer'>
-  
-  <!--<div class="form-group row">
-  <div class="col-xs-10">
-    <div class="input-group input-group-lg">
-      <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-move'></span></span>
-      <input type="text" id='text_area_1' class="form-control" placeholder="Task Template" aria-describedby="sizing-addon1">
+    <div class="jumbotron text-center">
+        <h1>My Collaborative List</h1>
+        <p>Responsive Collaborative List</p> 
     </div>
-  </div>
-  <div class="col-xs-2">
-   <button type="submit" class="btn btn-default btn-lg"><span class='glyphicon glyphicon-trash'></span></button>
-  </div>
-  </div>-->
 
 
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="alert alert-info">
+                <strong>Info!</strong> You have to authorize first. Please press the button <i>'Authorize'</i>.
+                <button id="auth_button" class='btn btn-info'>Authorize</button>
+            </div>
  
-      </div>
-  <hr>
-  <form style='text-align: center'>
-  <div class="form-group">
-      <label for="email"><h4>Here you can add new task</h4></label>
-    <input type="text" class="form-control" id="newTaskText" placeholder="Write your text here..">
-  </div>
-</form>
-  
-  <button type="submit" id='addTask' class="btn btn-primary btn-lg">Add new task.</button>
-  
-  </div>
-  
-  <div class="panel-footer">Softevol</div>
+             <div id='taskContainer'>
+                <!--<div class="form-group row">
+                    <div class="col-xs-10">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="sizing-addon1"></span>
+                            <input type="text" id='text_area_1' class="form-control" placeholder="Task Template" aria-describedby="sizing-addon1">
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-default btn-lg"><span class='glyphicon glyphicon-trash'></span></button>
+                    </div>
+                </div>-->
+            </div>
+            
+            <hr>
+            
+            <form style='text-align: center'>
+                <div class="form-group">
+                    <label for="email"><h4>Here you can add new task</h4></label>
+                    <input type="text" class="form-control" id="newTaskText" placeholder="Write your text here..">
+                </div>
+            </form>
+            <button draggable=true type="submit" id='addTask' class="btn btn-primary btn-lg">Add new task</button>
+        </div>
+        
+        <div class="panel-footer">Softevol</div>
+    </div>
 </div>
-
-</div>
-
-
-
-
 
 </body>
 </html>

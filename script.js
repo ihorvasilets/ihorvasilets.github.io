@@ -118,7 +118,7 @@ function drawTask(i){
     taskContainer.appendChild(task);
 
         var col1 = document.createElement('div');
-        col1.classList.add('col-xs-10');
+        col1.classList.add('col-xs-11');
         task.appendChild(col1);
 
             var inpGroup = document.createElement('div');
@@ -128,16 +128,21 @@ function drawTask(i){
                 var span1 = document.createElement('span');
                 span1.classList.add('input-group-addon');
                 span1.id = "sizing-addon1";
+//                console.log(span1.draggable);
                 inpGroup.appendChild(span1);
     
                 var container = document.getElementById('taskContainer');
                 span1.addEventListener('mousedown', function(event){
                     dragDrop(event, container, taskList);
                 });
+                span1.addEventListener('touchstart', function(event){
+                    event.preventDefault();
+                    dragDrop(event, container, taskList);
+                });
 
-                    var span2 = document.createElement('span');
-                    span2.classList.add('glyphicon', 'glyphicon-move');
-                    span1.appendChild(span2);
+//                    var span2 = document.createElement('span');
+//                    span2.classList.add('glyphicon', 'glyphicon-move');
+//                    span1.appendChild(span2);
 
                 var inputField = document.createElement("input");
                 gapi.drive.realtime.databinding.bindString(doc.getModel().getRoot().get('coll_list').get(i), inputField);
@@ -148,7 +153,7 @@ function drawTask(i){
                 inpGroup.appendChild(inputField);
 
         var col2 = document.createElement('div');
-        col2.classList.add('col-xs-2');
+        col2.classList.add('col-xs-1');
         task.appendChild(col2);
 
             var delButton = document.createElement("button");
@@ -164,7 +169,8 @@ function drawTask(i){
             col2.appendChild(delButton);
 
                 var spanBtn = document.createElement('span');
-                spanBtn.classList.add('glyphicon', 'glyphicon-trash');
+                spanBtn.classList.add('glyphicon');
+//                spanBtn.innerHTML = 'Delete';
                 delButton.appendChild(spanBtn);
 }
 
@@ -173,15 +179,17 @@ function drawTask(i){
 //------------------------------------------------------------------------
 
 function dragDrop(event, container, taskList){
-    if(event.path.length == 12){
+//    if(event.path.length == 12){
         var movingItem = event.target.parentElement.parentElement.parentElement;
-        var target = event.target;}
-    else{
-        var movingItem = event.target.parentElement.parentElement.parentElement.parentElement;
-        var target = event.target.parentElement;
-    }
+        var target = event.target;
+//}
+//    else{
+//        var movingItem = event.target.parentElement.parentElement.parentElement.parentElement;
+//        var target = event.target.parentElement;
+//    }
 
     movingItem.style.position = 'absolute';
+    movingItem.style.zIndex = '1000';
     moveAt(event);
 
     function moveAt(event){
@@ -190,13 +198,14 @@ function dragDrop(event, container, taskList){
         console.log(movingItem.getBoundingClientRect().top);
     }
 
-    document.onmousemove = function(event){
+    document.onmousemove = document.ontouchmove = function(event){
+        event.preventDefault();
         moveAt(event);
     }
 
-    target.onmouseup = function(){
+    target.onmouseup = target.ontouchend = function(){
         
-        document.onmousemove = null;
+        document.onmousemove = document.ontouchmove = null;
         
         var children = movingItem.parentElement.children;
         var targetCoords = movingItem.getBoundingClientRect().top;
