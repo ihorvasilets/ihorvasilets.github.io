@@ -1,0 +1,18 @@
+#auth_button {
+    float: right;
+    margin-top: -7px;
+}
+
+.alert.alert-info{
+    display: none;
+}
+
+.alert.alert-info.visible{
+    display:block;
+}
+
+#addTask{
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
