@@ -203,7 +203,7 @@ function dragDrop(event, container, taskList){
         moveAt(event);
     }
 
-    target.onmouseup = target.ontouchend = function(){
+    document.onmouseup = target.ontouchend = function(){
         
         document.onmousemove = document.ontouchmove = null;
         
