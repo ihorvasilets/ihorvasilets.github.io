@@ -1,6 +1,6 @@
 //------------------------ Authorization Module --------------------------
 //------------------------------------------------------------------------
-var clientId = '805860007508-kq670fbndvvnn35mk9dl2tl9qnmqu33q.apps.googleusercontent.com';
+var clientId = '874917131626-vsnpnam4e257pvlrqnv7vuvbtn4oeo9g.apps.googleusercontent.com';
 
 if (!/^([0-9])$/.test(clientId[0])) {
 alert('Invalid Client ID - did you forget to insert your application Client ID?');
