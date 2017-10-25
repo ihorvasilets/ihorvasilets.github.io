@@ -192,14 +192,10 @@ function dragDrop(event, container, taskList){
     movingItem.style.zIndex = '1000';
     moveAt(event);
 
-
-
     function moveAt(event){
         movingItem.style.left = event.pageX - target.offsetWidth / 2 + 'px';                    
         movingItem.style.top = event.pageY - target.offsetHeight / 2 + 'px';
-        // console.log(movingItem.getBoundingClientRect().top);
-        document.getElementById('newTaskText').innerHTML += ' ';
-        document.getElementById('newTaskText').innerHTML += movingItem.getBoundingClientRect().top;
+        console.log(movingItem.getBoundingClientRect().top);
     }
 
     document.onmousemove = document.ontouchmove = function(event){
@@ -216,7 +212,7 @@ function dragDrop(event, container, taskList){
         
         var to = children.length;
         for (var j = 0; j < children.length; j++){
-            //console.log('j ' + j + ' ' + children[j].getBoundingClientRect().top);
+            console.log('j ' + j + ' ' + children[j].getBoundingClientRect().top);
             if(children[j].getBoundingClientRect().top > targetCoords){
                 to = j;
                 break;
