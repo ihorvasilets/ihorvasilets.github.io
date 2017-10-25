@@ -191,7 +191,9 @@ function dragDrop(event, container, taskList){
     movingItem.style.position = 'absolute';
     movingItem.style.zIndex = '1000';
     moveAt(event);
-    ggg = document.getElementById('newTaskText');
+
+    var ggg = document.getElementById('newTaskText');
+
     function moveAt(event){
         movingItem.style.left = event.pageX - target.offsetWidth / 2 + 'px';                    
         movingItem.style.top = event.pageY - target.offsetHeight / 2 + 'px';
