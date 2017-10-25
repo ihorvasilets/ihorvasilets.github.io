@@ -191,11 +191,13 @@ function dragDrop(event, container, taskList){
     movingItem.style.position = 'absolute';
     movingItem.style.zIndex = '1000';
     moveAt(event);
-
+    ggg = document.getElementById('newTaskText');
     function moveAt(event){
         movingItem.style.left = event.pageX - target.offsetWidth / 2 + 'px';                    
         movingItem.style.top = event.pageY - target.offsetHeight / 2 + 'px';
-        console.log(movingItem.getBoundingClientRect().top);
+        // console.log(movingItem.getBoundingClientRect().top);
+        ggg.innerHTML += ' ';
+        ggg.innerHTML += movingItem.getBoundingClientRect().top;
     }
 
     document.onmousemove = document.ontouchmove = function(event){
