@@ -1,2 +1,6 @@
 github.io:
 874917131626-vsnpnam4e257pvlrqnv7vuvbtn4oeo9g.apps.googleusercontent.com
+
+todo:
+mobile: doesn't work 'onmousemowe' - on click to value it just changing with next sibling
+ie: doesn't work index detection - item goes on top or down of the list.

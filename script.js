@@ -193,8 +193,8 @@ function dragDrop(event, container, taskList){
     moveAt(event);
 
     function moveAt(event){
-        movingItem.style.left = event.pageX - target.offsetWidth / 2 + 'px';                    
-        movingItem.style.top = event.pageY - target.offsetHeight / 2 + 'px';
+        movingItem.style.left = event.pageX + 'px';
+        movingItem.style.top = event.pageY + 'px';
         console.log(movingItem.getBoundingClientRect().top);
     }
 
