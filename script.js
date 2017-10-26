@@ -1,6 +1,6 @@
 //------------------------ Authorization Module --------------------------
 //------------------------------------------------------------------------
-var clientId = '874917131626-vsnpnam4e257pvlrqnv7vuvbtn4oeo9g.apps.googleusercontent.com';
+var clientId = '805860007508-kq670fbndvvnn35mk9dl2tl9qnmqu33q.apps.googleusercontent.com';
 
 if (!/^([0-9])$/.test(clientId[0])) {
 alert('Invalid Client ID - did you forget to insert your application Client ID?');
@@ -118,7 +118,7 @@ function drawTask(i){
     taskContainer.appendChild(task);
 
         var col1 = document.createElement('div');
-        col1.classList.add('col-xs-11');
+        col1.classList.add('col-xs-10', 'col-sm-11');
         task.appendChild(col1);
 
             var inpGroup = document.createElement('div');
@@ -128,7 +128,6 @@ function drawTask(i){
                 var span1 = document.createElement('span');
                 span1.classList.add('input-group-addon');
                 span1.id = "sizing-addon1";
-//                console.log(span1.draggable);
                 inpGroup.appendChild(span1);
     
                 var container = document.getElementById('taskContainer');
@@ -153,7 +152,7 @@ function drawTask(i){
                 inpGroup.appendChild(inputField);
 
         var col2 = document.createElement('div');
-        col2.classList.add('col-xs-1');
+        col2.classList.add('col-xs-2', 'col-sm-1');
         task.appendChild(col2);
 
             var delButton = document.createElement("button");
@@ -178,41 +177,71 @@ function drawTask(i){
 //-------------------------- Drag & drop tasks ---------------------------
 //------------------------------------------------------------------------
 
+var aa = 0;
+var timerId = setInterval(function() {
+  aa = aa + 1;
+}, 200);
+
+
 function dragDrop(event, container, taskList){
 //    if(event.path.length == 12){
         var movingItem = event.target.parentElement.parentElement.parentElement;
         var target = event.target;
+        var delBtn = movingItem.children[1].children[0]
 //}
 //    else{
 //        var movingItem = event.target.parentElement.parentElement.parentElement.parentElement;
 //        var target = event.target.parentElement;
 //    }
-
     movingItem.style.position = 'absolute';
+    delBtn.style.visibility = 'hidden';
     movingItem.style.zIndex = '1000';
-    moveAt(event);
 
     function moveAt(event){
-        movingItem.style.left = event.pageX + 'px';
+        movingItem.style.left = event.pageX + 'px';                    
         movingItem.style.top = event.pageY + 'px';
-        console.log(movingItem.getBoundingClientRect().top);
+        //console.log(movingItem.getBoundingClientRect().top);
+    }
+    
+     function moveAtTouch(event){
+        movingItem.style.left = event.changedTouches[0].clientX + 'px';  
+         //console.log(event.changedTouches[0].clientX + ' y' + event.changedTouches[0].clientY);
+         console.log(event.changedTouches[0]);
+        movingItem.style.top = event.changedTouches[0].clientY + window.pageYOffset + 'px';
+        //console.log(movingItem.getBoundingClientRect().top);
     }
 
-    document.onmousemove = document.ontouchmove = function(event){
-        event.preventDefault();
-        moveAt(event);
-    }
-
-    document.onmouseup = target.ontouchend = function(){
+    
+    document.addEventListener('touchmove', touchMove);
+    document.addEventListener('mousemove', mouseMove);
         
-        document.onmousemove = document.ontouchmove = null;
+        
+        
+    function touchMove (event){
+        moveAtTouch(event, aa); 
+    }
+
+    function mouseMove (event){
+        moveAt(event); 
+    }
+    
+    
+    document.addEventListener('touchend', touchEnd);
+    document.addEventListener('mouseup', touchEnd);
+    
+    
+    function touchEnd(){
+        
+        document.removeEventListener('touchmove', touchMove);
+        document.removeEventListener('mousemove', touchMove);
         
         var children = movingItem.parentElement.children;
+        console.log('children: ' + movingItem.parentElement.children);
         var targetCoords = movingItem.getBoundingClientRect().top;
         
         var to = children.length;
         for (var j = 0; j < children.length; j++){
-            console.log('j ' + j + ' ' + children[j].getBoundingClientRect().top);
+            console.log('j[' + j + '] ' + children[j].getBoundingClientRect().top);
             if(children[j].getBoundingClientRect().top > targetCoords){
                 to = j;
                 break;
@@ -227,6 +256,7 @@ function dragDrop(event, container, taskList){
             container.appendChild(movingItem);
 
         movingItem.style.position = 'static';
+         delBtn.style.visibility = 'visible';
         taskList.move(+from, +to);
     }
 }

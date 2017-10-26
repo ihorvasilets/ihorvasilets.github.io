@@ -28,5 +28,5 @@ div#taskContainer > div > div button{
     background-repeat: no-repeat;
     background-size: 75%;
     background-position: center center;
-    float: right;
+/*    float: right;*/
 }
