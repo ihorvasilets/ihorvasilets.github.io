@@ -129,14 +129,16 @@ function drawTask(i){
                 span1.classList.add('input-group-addon');
                 span1.id = "sizing-addon1";
                 inpGroup.appendChild(span1);
-    
+                
+                var touchKey = false;
                 var container = document.getElementById('taskContainer');
                 span1.addEventListener('mousedown', function(event){
-                    dragDrop(event, container, taskList);
+                    dragDrop(event, container, taskList, touchKey);
                 });
                 span1.addEventListener('touchstart', function(event){
                     event.preventDefault();
-                    dragDrop(event, container, taskList);
+                    touchKey = true;
+                    dragDrop(event, container, taskList, touchKey);
                 });
 
 //                    var span2 = document.createElement('span');
@@ -177,13 +179,7 @@ function drawTask(i){
 //-------------------------- Drag & drop tasks ---------------------------
 //------------------------------------------------------------------------
 
-var aa = 0;
-var timerId = setInterval(function() {
-  aa = aa + 1;
-}, 200);
-
-
-function dragDrop(event, container, taskList){
+function dragDrop(event, container, taskList, touchKey){
 //    if(event.path.length == 12){
         var movingItem = event.target.parentElement.parentElement.parentElement;
         var target = event.target;
@@ -196,10 +192,6 @@ function dragDrop(event, container, taskList){
     movingItem.style.position = 'absolute';
     delBtn.style.visibility = 'hidden';
     movingItem.style.zIndex = '1000';
-
-    moveAt(event);
-    moveAtTouch(event);
-
 
     function moveAt(event){
         movingItem.style.left = event.pageX + 'px';                    
@@ -215,6 +207,14 @@ function dragDrop(event, container, taskList){
         //console.log(movingItem.getBoundingClientRect().top);
     }
 
+    if(touchKey){
+        moveAtTouch(event);
+    }
+    else{
+        moveAt(event);
+    }
+    
+    
     
     document.addEventListener('touchmove', touchMove);
     document.addEventListener('mousemove', mouseMove);
@@ -222,7 +222,7 @@ function dragDrop(event, container, taskList){
         
         
     function touchMove (event){
-        moveAtTouch(event, aa); 
+        moveAtTouch(event); 
     }
 
     function mouseMove (event){
