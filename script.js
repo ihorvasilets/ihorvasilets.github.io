@@ -197,6 +197,10 @@ function dragDrop(event, container, taskList){
     delBtn.style.visibility = 'hidden';
     movingItem.style.zIndex = '1000';
 
+    moveAt(event);
+    moveAtTouch(event);
+
+
     function moveAt(event){
         movingItem.style.left = event.pageX + 'px';                    
         movingItem.style.top = event.pageY + 'px';
