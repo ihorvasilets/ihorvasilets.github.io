@@ -28,5 +28,20 @@ div#taskContainer > div > div button{
     background-repeat: no-repeat;
     background-size: 75%;
     background-position: center center;
-/*    float: right;*/
+    float: right;
+}
+
+
+@media (max-width: 640px) {
+button#auth_button {
+    float: none;
+    margin: auto;
+    margin-top: 10px;
+    display: block;
+    }
+    
+.alert.alert-info{
+    text-align: center;
+}
+    
 }

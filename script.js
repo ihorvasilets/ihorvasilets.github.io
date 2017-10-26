@@ -74,7 +74,7 @@ function onFileInitialize(model) {
 }
 
 
-//------------------------- On file loaded -------------------------
+//------------------------- On file loaded -------------------------------
 //------------------------------------------------------------------------
 
 // After a file has been initialized and loaded, we can access the
@@ -95,6 +95,16 @@ function onFileLoaded(doc) {
 
         collabList.push(newTask); 
     });
+    
+    //-------- enter button handler  
+    var newTaskField = document.getElementById('newTaskText');
+    newTaskField.addEventListener('keydown', function(e){
+       if(e.keyCode == 13){
+           e.preventDefault();
+           var newEvent = new Event('click');
+           button.dispatchEvent(newEvent);
+       } 
+    });
 
     //-------- onValuesAdded action (draw item)  
     collabList.addEventListener(gapi.drive.realtime.EventType.VALUES_ADDED, function(){
@@ -106,16 +116,17 @@ function onFileLoaded(doc) {
     collabList.addEventListener(gapi.drive.realtime.EventType.VALUES_REMOVED, function(){redraw(collabList)});  
 }
 
-//------------------------ Drawing DOM-elements  -------------------------
+//-------- Drawing DOM-elements and attaching event listeners ------------
 //------------------------------------------------------------------------
   
 function drawTask(i){
       
     var taskList = arguments[1];
+    var container = document.getElementById('taskContainer');
     //console.log(arguments[1]);
     var task = document.createElement('div');
     task.classList.add('form-group', 'row');
-    taskContainer.appendChild(task);
+    container.appendChild(task);
 
         var col1 = document.createElement('div');
         col1.classList.add('col-xs-10', 'col-sm-11');
@@ -131,7 +142,8 @@ function drawTask(i){
                 inpGroup.appendChild(span1);
                 
                 var touchKey = false;
-                var container = document.getElementById('taskContainer');
+                
+                //-------- drag & drop event listeners
                 span1.addEventListener('mousedown', function(event){
                     dragDrop(event, container, taskList, touchKey);
                 });
@@ -141,12 +153,10 @@ function drawTask(i){
                     dragDrop(event, container, taskList, touchKey);
                 });
 
-//                    var span2 = document.createElement('span');
-//                    span2.classList.add('glyphicon', 'glyphicon-move');
-//                    span1.appendChild(span2);
-
+                //-------- creation of input-field and binding it to the model
                 var inputField = document.createElement("input");
                 gapi.drive.realtime.databinding.bindString(doc.getModel().getRoot().get('coll_list').get(i), inputField);
+                
                 inputField.type = "text";
                 inputField.placeholder = 'Empty task';
                 inputField.classList.add('form-control');
@@ -161,6 +171,7 @@ function drawTask(i){
             delButton.type = 'submit';
             delButton.classList.add('btn', 'btn-default', 'btn-lg');
             delButton.dataset.listIndex = i;
+            
             //-------- removing item from list:
             delButton.addEventListener('click', function(){
                 var delInd = delButton.dataset.listIndex;
@@ -171,42 +182,40 @@ function drawTask(i){
 
                 var spanBtn = document.createElement('span');
                 spanBtn.classList.add('glyphicon');
-//                spanBtn.innerHTML = 'Delete';
                 delButton.appendChild(spanBtn);
 }
 
 
-//-------------------------- Drag & drop tasks ---------------------------
+//----------------------------- Drag & drop ------------------------------
 //------------------------------------------------------------------------
 
 function dragDrop(event, container, taskList, touchKey){
-//    if(event.path.length == 12){
-        var movingItem = event.target.parentElement.parentElement.parentElement;
-        var target = event.target;
-        var delBtn = movingItem.children[1].children[0]
-//}
-//    else{
-//        var movingItem = event.target.parentElement.parentElement.parentElement.parentElement;
-//        var target = event.target.parentElement;
-//    }
+    var movingItem = event.target.parentElement.parentElement.parentElement;
+    var target = event.target;
+    var delBtn = movingItem.children[1].children[0];
+
     movingItem.style.position = 'absolute';
     delBtn.style.visibility = 'hidden';
     movingItem.style.zIndex = '1000';
+    movingItem.style.width = '80%';
+    movingItem.classList.add('moving-width');
 
+    //-------- moving if mouse event  
     function moveAt(event){
-        movingItem.style.left = event.pageX + 'px';                    
-        movingItem.style.top = event.pageY + 'px';
+        movingItem.style.left = event.pageX - 17 + 'px';                    
+        movingItem.style.top = event.pageY - 23 + 'px';
         //console.log(movingItem.getBoundingClientRect().top);
     }
     
+     //-------- moving if touch event 
      function moveAtTouch(event){
-        movingItem.style.left = event.changedTouches[0].clientX + 'px';  
-         //console.log(event.changedTouches[0].clientX + ' y' + event.changedTouches[0].clientY);
-         console.log(event.changedTouches[0]);
-        movingItem.style.top = event.changedTouches[0].clientY + window.pageYOffset + 'px';
+        movingItem.style.left = event.changedTouches[0].clientX - 17 + 'px';  
+        //console.log(event.changedTouches[0].clientX + ' y' + event.changedTouches[0].clientY);
+        movingItem.style.top = event.changedTouches[0].clientY + window.pageYOffset - 23 + 'px';
         //console.log(movingItem.getBoundingClientRect().top);
     }
 
+    //-------- initial position 
     if(touchKey){
         moveAtTouch(event);
     }
@@ -214,12 +223,8 @@ function dragDrop(event, container, taskList, touchKey){
         moveAt(event);
     }
     
-    
-    
     document.addEventListener('touchmove', touchMove);
     document.addEventListener('mousemove', mouseMove);
-        
-        
         
     function touchMove (event){
         moveAtTouch(event); 
@@ -229,10 +234,9 @@ function dragDrop(event, container, taskList, touchKey){
         moveAt(event); 
     }
     
-    
+    //-------- onDrop actions
     document.addEventListener('touchend', touchEnd);
     document.addEventListener('mouseup', touchEnd);
-    
     
     function touchEnd(){
         
@@ -258,9 +262,11 @@ function dragDrop(event, container, taskList, touchKey){
             container.insertBefore(movingItem, container.children[+to+1]);
         else
             container.appendChild(movingItem);
-
+        
         movingItem.style.position = 'static';
-         delBtn.style.visibility = 'visible';
+        delBtn.style.visibility = 'visible';
+        
+        //-------- model changing
         taskList.move(+from, +to);
     }
 }
